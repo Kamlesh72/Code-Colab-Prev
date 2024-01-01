@@ -17,19 +17,19 @@ const CodeEditor = () => {
     borderBottomRightRadius: '16px',
   };
   return (
-    <div className="grid grid-rows-5 gap-3 h-full">
-      <div className="row-span-3" id="code-editor">
+    <div className='grid grid-rows-5 gap-3 h-full'>
+      <div className='row-span-3' id='code-editor'>
         <div
-          className="p-2 pl-10 text-slate-200 rounded-t-2xl"
+          className='p-2 pl-10 text-slate-200 rounded-t-2xl'
           style={{ backgroundColor: 'rgb(47, 49, 41)' }}
         >
           Code
         </div>
         <AceEditor
-          mode="javascript"
-          theme="monokai"
+          mode='javascript'
+          theme='monokai'
           onChange={onChange}
-          name="code-editor"
+          name='code-editor'
           fontSize={fontSize}
           setOptions={{
             useWorker: false,
@@ -38,24 +38,24 @@ const CodeEditor = () => {
             enableSnippets: true,
             showPrintMargin: false,
           }}
-          height="92%"
-          width="100%"
+          height='92%'
+          width='100%'
           style={aceEditorStyles}
         />
       </div>
-      <div className="row-span-2">
-        <div className="grid grid-cols-2 gap-3 h-full">
-          <div id="code-input">
+      <div className='row-span-2'>
+        <div className='grid grid-cols-2 gap-3 h-full'>
+          <div id='code-input'>
             <div
-              className="p-2 pl-10 text-slate-200 rounded-t-2xl"
+              className='p-2 pl-10 text-slate-200 rounded-t-2xl'
               style={{ backgroundColor: 'rgb(47, 49, 41)' }}
             >
               Input
             </div>
             <AceEditor
-              mode="javascript"
-              theme="monokai"
-              name="code-input"
+              mode='javascript'
+              theme='monokai'
+              name='code-input'
               fontSize={fontSize}
               setOptions={{
                 useWorker: false,
@@ -64,22 +64,22 @@ const CodeEditor = () => {
                 enableSnippets: true,
                 showPrintMargin: false,
               }}
-              height="89%"
-              width="100%"
+              height='89%'
+              width='100%'
               style={aceEditorStyles}
             />
           </div>
-          <div id="code-output">
+          <div id='code-output'>
             <div
-              className="p-2 pl-10 text-slate-200 rounded-t-2xl"
+              className='p-2 pl-10 text-slate-200 rounded-t-2xl'
               style={{ backgroundColor: 'rgb(47, 49, 41)' }}
             >
               Output
             </div>
             <AceEditor
-              mode="javascript"
-              theme="monokai"
-              name="code-output"
+              mode='javascript'
+              theme='monokai'
+              name='code-output'
               fontSize={fontSize}
               setOptions={{
                 useWorker: false,
@@ -88,8 +88,8 @@ const CodeEditor = () => {
                 enableSnippets: true,
                 showPrintMargin: false,
               }}
-              height="89%"
-              width="100%"
+              height='89%'
+              width='100%'
               style={aceEditorStyles}
             />
           </div>

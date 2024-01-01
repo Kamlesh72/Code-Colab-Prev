@@ -37,9 +37,9 @@ function App() {
   ]);
 
   return (
-    <div className="App">
+    <div className='App'>
       {loading && <Spinner />}
-      <Toaster position="top-right"></Toaster>
+      <Toaster position='top-right'></Toaster>
       <RouterProvider router={router} />
     </div>
   );

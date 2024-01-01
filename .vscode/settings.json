@@ -1,0 +1,23 @@
+{
+  "explorer.confirmDelete": false,
+  "files.autoSave": "afterDelay",
+  "workbench.iconTheme": "material-icon-theme",
+  "editor.mouseWheelZoom": true,
+  "editor.tabSize": 2,
+  "chatgpt.lang": "en",
+  "liveServer.settings.donotShowInfoMsg": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "terminal.integrated.env.windows": {},
+  "explorer.confirmDragAndDrop": false,
+  "workbench.colorTheme": "JellyFish",
+  "prettier.jsxSingleQuote": true,
+  "javascript.preferences.quoteStyle": "single",
+  "typescript.preferences.quoteStyle": "single",
+  "prettier.singleQuote": true,
+  "git.openRepositoryInParentFolders": "never",
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "explicit",
+    "source.addMissingImports": "explicit"
+  }
+}

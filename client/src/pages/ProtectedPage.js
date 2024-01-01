@@ -33,11 +33,11 @@ const ProtectedPage = ({ children }) => {
   return (
     <>
       {user && (
-        <div className="h-screen flex flex-col">
+        <div className='h-screen flex flex-col'>
           <div>
             <Navbar />
           </div>
-          <div className="flex-1">{children}</div>
+          <div className='flex-1'>{children}</div>
         </div>
       )}
     </>
