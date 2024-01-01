@@ -22,7 +22,8 @@ export const registerController = async (req, res) => {
   try {
     const { name, email, password } = req.body;
     if (name && email && password) {
-      if (await User.findOne({ email })) return res.send({ ok: false, message: 'User already Exists' });
+      if (await User.findOne({ email }))
+        return res.send({ ok: false, message: 'User already Exists' });
       const hashedPassword = await bcrypt.hash(password, 10);
       const user = new User({ ...req.body, password: hashedPassword });
       await user.save();

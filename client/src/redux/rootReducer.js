@@ -1,4 +1,4 @@
-import { createReducer } from "@reduxjs/toolkit";
+import { createReducer } from '@reduxjs/toolkit';
 
 export const rootReducer = createReducer(
   {
@@ -9,7 +9,7 @@ export const rootReducer = createReducer(
       state.isAuthenticated = true;
     },
     logout: (state) => {
-        state.isAuthenticated = false;
+      state.isAuthenticated = false;
     },
   }
 );
