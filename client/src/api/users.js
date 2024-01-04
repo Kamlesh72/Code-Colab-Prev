@@ -21,7 +21,6 @@ export const LoginUser = async (payload) => {
 export const GetCurrentUser = async () => {
   try {
     const response = await axiosInstance.get('/api/user');
-    console.log(response);
     return response.data;
   } catch (err) {
     return err.message;

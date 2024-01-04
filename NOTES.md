@@ -41,9 +41,13 @@
 - Whiteboard can have 2 component, canvas and controls. So both is not need to render again if any 1 is changed.
 - Slowly slowly many components will be there, and need to pass props/state much more, so better to use redux for state management.
 
-
-
-
 ## RESOURCES
 
 React-toolkit - https://www.youtube.com/watch?v=1i04-A7kfFI
+
+## BUGS and ERRORS
+
+1. xhr poll error
+
+- Getting this error on socket connection.
+- Resolved it by adding { transports: ['websocket'] } option to Socket.js

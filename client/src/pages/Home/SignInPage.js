@@ -107,7 +107,7 @@ const SignInPage = () => {
             <p className='text-sm font-light text-gray-500 dark:text-gray-400'>
               Don't have an account?{' '}
               <Link
-                to='/signup'
+                to='/register'
                 className='font-medium text-blue-600 hover:underline dark:text-blue-500'
               >
                 Create new account
