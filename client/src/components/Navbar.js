@@ -1,26 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-// import { Parse } from 'parse/dist/parse.min.js';
-import { GetCurrentUser } from '../api/users';
 
 const Navbar = () => {
-  const [currentUser, setCurrentUser] = useState('');
-
-  useEffect(() => {
-    const fetchCurrentUser = async () => {
-      try {
-        const user = await GetCurrentUser();
-        const username = user.data.name;
-        setCurrentUser(username);
-        // console.log(username);
-      } catch (error) {
-        console.error('Error fetching current User: ', error);
-      }
-    }
-    fetchCurrentUser();
-  }, []);
-
+  const { user } = useSelector(state => state.user);
   return (
 
     <nav className='bg-white border-gray-200 dark:bg-gray-900'>
@@ -72,7 +55,7 @@ const Navbar = () => {
         </div>
         <div className='flex items-center md:order-2 mr-3 text-sm'>
           <div className='block text-sm text-gray-900 dark:text-white pr-3 cursor-pointer '>
-            {currentUser.toUpperCase()}
+            {user.name.toUpperCase()}
           </div>
           <div className='rounded-full md:mr-0'>
             <img
