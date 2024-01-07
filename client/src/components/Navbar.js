@@ -1,8 +1,28 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+// import { Parse } from 'parse/dist/parse.min.js';
+import { GetCurrentUser } from '../api/users';
 
 const Navbar = () => {
+  const [currentUser, setCurrentUser] = useState('');
+
+  useEffect(() => {
+    const fetchCurrentUser = async () => {
+      try {
+        const user = await GetCurrentUser();
+        const username = user.data.name;
+        setCurrentUser(username);
+        // console.log(username);
+      } catch (error) {
+        console.error('Error fetching current User: ', error);
+      }
+    }
+    fetchCurrentUser();
+  }, []);
+
   return (
+
     <nav className='bg-white border-gray-200 dark:bg-gray-900'>
       <div className='max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4'>
         <a href='https://flowbite.com/' className='flex items-center'>
@@ -51,12 +71,12 @@ const Navbar = () => {
           </ul>
         </div>
         <div className='flex items-center md:order-2 mr-3 text-sm'>
-          <div className='block text-sm text-gray-900 dark:text-white pr-3 '>
-            UserName Here
+          <div className='block text-sm text-gray-900 dark:text-white pr-3 cursor-pointer '>
+            {currentUser.toUpperCase()}
           </div>
           <div className='rounded-full md:mr-0'>
             <img
-              className='w-8 h-8 rounded-full'
+              className='w-8 h-8 rounded-full cursor-pointer'
               src='https://flowbite.com/docs/images/people/profile-picture-3.jpg'
               alt='user'
             />
