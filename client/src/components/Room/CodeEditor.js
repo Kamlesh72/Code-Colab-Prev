@@ -146,7 +146,7 @@ const CodeEditor = () => {
       socketRef.current.disconnect();
       //socketRef.current.offAny(); // Check more details about this. Used to remove listeners.
     };
-  }, [inputEditor, mainEditor, navigate, outputEditor, roomId, user.name]);
+  }, []);
 
   return (
     <div className='grid grid-rows-5 gap-3 h-full'>
