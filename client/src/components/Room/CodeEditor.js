@@ -11,6 +11,8 @@ import { toast } from 'react-hot-toast';
 import { useSelector } from 'react-redux';
 import { initSocket } from '../../helpers/Socket';
 import { ACTIONS } from '../../helpers/Actions';
+import { RunIcon, SettingsIcon } from '../../icons/icons';
+import axiosInstance from '../../api/axiosInstance';
 
 const CodeEditor = () => {
   const [fontSize, setFontSize] = useState(16);
@@ -22,7 +24,7 @@ const CodeEditor = () => {
   const { roomId } = useParams();
   const { user } = useSelector((state) => state.user);
   const [users, setUsers] = useState([]);
-  console.log(users);
+  // console.log(users);
 
   const aceEditorStyles = {
     borderBottomLeftRadius: '16px',
@@ -30,12 +32,56 @@ const CodeEditor = () => {
   };
 
   function handleEditorChange({ editor, code }) {
-    console.log(code);
     if (editor === 'main') setMainEditor(code);
     else if (editor === 'input') setInputEditor(code);
     else setOutputEditor(code);
     socketRef.current?.emit(ACTIONS.CODE_CHANGE, { roomId, editor, code });
   }
+
+  const runCodeHandler = async () => {
+    const options = {
+      method: 'POST',
+      url: 'https://code-compiler10.p.rapidapi.com/',
+      headers: {
+        'content-type': 'application/json',
+        'x-compile': 'rapidapi',
+        'Content-Type': 'application/json',
+        'X-RapidAPI-Key': 'd8501ad199msh690528ec5c0894ep1e5788jsn0d08074c2047',
+        'X-RapidAPI-Host': 'code-compiler10.p.rapidapi.com',
+      },
+      data: {
+        langEnum: [
+          'php',
+          'python',
+          'c',
+          'c_cpp',
+          'csharp',
+          'kotlin',
+          'golang',
+          'r',
+          'java',
+          'typescript',
+          'nodejs',
+          'ruby',
+          'perl',
+          'swift',
+          'fortran',
+          'bash',
+        ],
+        lang: 'c_cpp',
+        code: mainEditor,
+        input: inputEditor,
+      },
+    };
+
+    try {
+      const response = await axiosInstance.request(options);
+      console.log(response.data);
+      setOutputEditor(response.data.output);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   // Socket
   useEffect(() => {
@@ -54,14 +100,26 @@ const CodeEditor = () => {
         });
 
         socketRef.current.on(ACTIONS.JOIN, ({ users, username }) => {
-          console.log(username);
+          // console.log(username);
           setUsers(users);
           if (username !== user.name) {
             toast.success(`${username} joined the room.`);
             console.log('message: ', mainEditor, user.name);
-            socketRef.current.emit(ACTIONS.CODE_CHANGE, { roomId, editor: 'main', mainEditor });
-            socketRef.current.emit(ACTIONS.CODE_CHANGE, { roomId, editor: 'input', inputEditor });
-            socketRef.current.emit(ACTIONS.CODE_CHANGE, { roomId, editor: 'output', outputEditor });
+            socketRef.current.emit(ACTIONS.CODE_CHANGE, {
+              roomId,
+              editor: 'main',
+              mainEditor,
+            });
+            socketRef.current.emit(ACTIONS.CODE_CHANGE, {
+              roomId,
+              editor: 'input',
+              inputEditor,
+            });
+            socketRef.current.emit(ACTIONS.CODE_CHANGE, {
+              roomId,
+              editor: 'output',
+              outputEditor,
+            });
           }
         });
 
@@ -88,15 +146,27 @@ const CodeEditor = () => {
       socketRef.current.disconnect();
       //socketRef.current.offAny(); // Check more details about this. Used to remove listeners.
     };
-  }, []);
+  }, [inputEditor, mainEditor, navigate, outputEditor, roomId, user.name]);
 
   return (
     <div className='grid grid-rows-5 gap-3 h-full'>
       <div className='row-span-3' id='code-editor'>
-        <div className='p-2 pl-10 text-slate-200 rounded-t-2xl' style={{ backgroundColor: 'rgb(47, 49, 41)' }}>
-          Code
+        <div
+          className='flex justify-between p-2 px-4 pl-10 text-slate-200 rounded-t-2xl'
+          style={{ backgroundColor: 'rgb(47, 49, 41)' }}
+        >
+          <p>Code</p>
+          <div className='flex justify-evenly gap-2'>
+            <button>
+              <SettingsIcon />
+            </button>
+            <button className='' onClick={runCodeHandler}>
+              <RunIcon />
+            </button>
+          </div>
         </div>
         <AceEditor
+          placeholder='Enter the code here'
           mode='javascript'
           theme='monokai'
           name='code-main'
@@ -109,6 +179,8 @@ const CodeEditor = () => {
             enableLiveAutocompletion: true,
             enableSnippets: true,
             showPrintMargin: false,
+            showLineNumbers: true,
+            tabSize: 2,
           }}
           height='92%'
           width='100%'
@@ -118,14 +190,17 @@ const CodeEditor = () => {
       <div className='row-span-2'>
         <div className='grid grid-cols-2 gap-3 h-full'>
           <div id='code-input'>
-            <div className='p-2 pl-10 text-slate-200 rounded-t-2xl' style={{ backgroundColor: 'rgb(47, 49, 41)' }}>
+            <div
+              className='p-2 pl-10 text-slate-200 rounded-t-2xl'
+              style={{ backgroundColor: 'rgb(47, 49, 41)' }}
+            >
               Input
             </div>
             <AceEditor
               mode='javascript'
               theme='monokai'
               name='code-input'
-              onChange={(e) => handleEditorChange({ editor: 'input', main: e.target.value })}
+              onChange={(code) => handleEditorChange({ editor: 'input', code })}
               value={inputEditor}
               fontSize={fontSize}
               setOptions={{
@@ -141,14 +216,16 @@ const CodeEditor = () => {
             />
           </div>
           <div id='code-output'>
-            <div className='p-2 pl-10 text-slate-200 rounded-t-2xl' style={{ backgroundColor: 'rgb(47, 49, 41)' }}>
+            <div
+              className='p-2 pl-10 text-slate-200 rounded-t-2xl'
+              style={{ backgroundColor: 'rgb(47, 49, 41)' }}
+            >
               Output
             </div>
             <AceEditor
               mode='javascript'
               theme='monokai'
               name='code-output'
-              onChange={(e) => handleEditorChange({ editor: 'output', main: e.target.value })}
               value={outputEditor}
               fontSize={fontSize}
               setOptions={{
@@ -161,6 +238,7 @@ const CodeEditor = () => {
               height='89%'
               width='100%'
               style={aceEditorStyles}
+              readOnly={true}
             />
           </div>
         </div>
